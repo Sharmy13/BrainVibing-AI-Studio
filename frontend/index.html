@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainVibing AI Studio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h1>🧠 BrainVibing</h1>
+            <p>AI Creative Studio</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#videoSetup">🎬 Create Video</a>
+            <a href="#scriptEditor">✍️ Script Editor</a>
+            <a href="#sceneSection">🎞️ Video Scenes</a>
+            <a href="#imageSection">🎨 Scene Images</a>
+            <a href="#audioSection">🎙️ Voice Studio</a>
+            <a href="#finalVideoSection">🎥 Final Export</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>Made with ❤️</p>
+            <small>BrainVibing Studio</small>
+        </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div>
+                <h2>AI Content Workspace</h2>
+                <p>Create scripts, scenes, images and voiceovers.</p>
+            </div>
+
+            <button id="themeToggle" class="theme-toggle">
+                ☀️ Light Mode
+            </button>
+        </header>
+
+
+        <!-- STEP 1: VIDEO INPUT -->
+        <section class="studio-section" id="videoSetup">
+
+            <div class="studio-card">
+
+                <h2>🎬 Create Your Video</h2>
+                <p>Start by entering your topic and selecting a language.</p>
+
+                <label for="topic">Video Topic</label>
+                <input
+                    type="text"
+                    id="topic"
+                    placeholder="Enter your video topic..."
+                >
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="language">Script Language</label>
+                        <select id="language">
+                            <option value="">Select Language</option>
+                            <option value="Telugu">Telugu</option>
+                            <option value="English">English</option>
+                            <option value="Hindi">Hindi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videoDuration">Video Duration</label>
+                        <select id="videoDuration">
+                            <option value="30" selected>30 Seconds</option>
+                            <option value="60">1 Minute</option>
+                            <option value="120">2 Minutes</option>
+                            <option value="300">5 Minutes</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Custom duration -->
+                <div class="form-group" id="customDurationGroup" style="display: none;">
+                    <label for="customDuration">Enter Custom Duration (seconds)</label>
+                    <input
+                        type="number"
+                        id="customDuration"
+                        min="10"
+                        max="1800"
+                        placeholder="Example: 90"
+                    >
+                </div>
+
+                <button id="generateBtn">
+                    ✨ Generate Script
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- STEP 2: SCRIPT RESULT -->
+        <section class="studio-section" id="scriptResultSection">
+
+            <div class="studio-card">
+                <h2>📝 Generated Script</h2>
+
+                <div id="result">
+                    Your generated script will appear here...
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- STEP 3: SCRIPT EDITOR -->
+        <section
+            class="studio-section"
+            id="scriptEditor"
+            style="display: none;"
+        >
+
+            <div class="studio-card">
+
+                <h2>✍️ Edit Your AI Script</h2>
+
+                <textarea
+                    id="editableScript"
+                    rows="12"
+                    placeholder="Your generated script will appear here. You can edit it..."
+                ></textarea>
+
+                <h2>💬 Chat with AI</h2>
+
+                <div id="scriptChatHistory">
+                    Ask AI to improve your script or make changes.
+                </div>
+
+                <textarea
+                    id="scriptChatInput"
+                    rows="3"
+                    placeholder="Tell AI what you want to change..."
+                ></textarea>
+
+                <div class="editor-actions">
+
+                    <button id="sendScriptMessage">
+                        ➤ Send Message
+                    </button>
+
+                    <button id="askAIButton">
+                        ✨ Ask AI to Improve
+                    </button>
+
+                    <button id="approveScriptButton">
+                        ✅ Approve Script
+                    </button>
+
+                </div>
+
+                <div id="scriptEditResult"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STEP 4: SCENE GENERATION -->
+        <section class="studio-section" id="sceneSection">
+
+            <div class="studio-card">
+
+                <h2>🎞️ Video Scenes</h2>
+                <p>Break your approved script into individual scenes.</p>
+
+                <button id="generateScenesBtn" disabled>
+                    Generate Video Scenes
+                </button>
+
+                <div id="scenesResult">
+                    Your video scenes will appear here...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STEP 5: AI IMAGES -->
+        <section class="studio-section" id="imageSection">
+
+            <div class="studio-card">
+
+                <h2>🎨 AI Scene Images</h2>
+                <p>Generate images for your video scenes.</p>
+
+                <div id="sceneImages">
+                    Your generated scene images will appear here...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STEP 6: VOICE GENERATION -->
+        <section class="studio-section" id="audioSection">
+
+            <div class="studio-card">
+
+                <h2>🎙️ AI Voice Studio</h2>
+                <p>Paste any text and convert it into speech.</p>
+
+                <label for="audioLanguage">Select Language</label>
+
+                <select id="audioLanguage">
+                    <option value="Telugu">Telugu</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="English">English</option>
+                </select>
+
+                <label for="voiceSelect">Choose Your Voice</label>
+
+                <select id="voiceSelect"></select>
+
+                <label for="voiceTextInput">Your Text</label>
+
+                <textarea
+                    id="voiceTextInput"
+                    rows="7"
+                    placeholder="Paste or type your text here..."
+                ></textarea>
+
+                <button id="generateAudioBtn">
+                    🎙️ Generate Speech
+                </button>
+
+                <div id="audioResult"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STEP 7: FINAL VIDEO EXPORT -->
+        <section class="studio-section" id="finalVideoSection">
+
+            <div class="studio-card">
+
+                <h2>🎥 Final Video Export</h2>
+                <p>Choose whether to include your generated voice-over.</p>
+
+                <label for="videoAudioOption">Export Option</label>
+
+                <select id="videoAudioOption">
+                    <option value="video-only">Video Only</option>
+                    <option value="video-audio">Video + Audio</option>
+                </select>
+
+                <button id="createVideoBtn" onclick="createFinalVideo()">
+                    🚀 Create Final Video
+                </button>
+
+                <div id="videoResult"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <p>Made with ❤️ by BrainVibing AI Studio</p>
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
