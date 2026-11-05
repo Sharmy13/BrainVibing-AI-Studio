@@ -17,11 +17,13 @@ const PORT = 5000;
 
 // Middleware
 app.use(cors({
-    origin: "https://brainvibing-ai-studio-frontend.vercel.app",
+    origin: [
+        "https://brainvibing-ai-studio-frontend.vercel.app",
+        "https://brainvibing-ai-studio-frontend-r7q91vt0n-sharmy13s-projects.vercel.app"
+    ],
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
 app.use(express.json({ limit: "10mb" }));
 
 // Gemini AI Setup
