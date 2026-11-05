@@ -151,39 +151,39 @@ app.post("/api/generate-scenes", async (req, res) => {
         }
 
       
+
 const prompt = `
-You are a professional YouTube voice-over script writer.
+You are a professional YouTube video scene planner.
 
-TOPIC: ${topic}
-LANGUAGE: ${language}
-TARGET VIDEO DURATION: ${videoDuration} seconds.
+Convert the following video script into 5 to 8 visual scenes.
 
-LENGTH:
-Write approximately ${estimatedWords} spoken words.
-Make the narration suitable for the selected duration.
+SCRIPT:
+${script}
 
-CONTENT:
-1. Start with an interesting hook.
-2. Write engaging, natural narration.
-3. Explain the topic clearly or tell an entertaining story.
-4. End with a memorable conclusion.
-5. Include a natural audience engagement line when appropriate.
+Return ONLY valid JSON in this exact structure:
 
-STRICT OUTPUT RULES:
-- Return ONLY the spoken narration.
-- Write it exactly as a person should speak it in a voice-over.
-- Do NOT include visual descriptions.
-- Do NOT include audio instructions or voice tones.
-- Do NOT include camera directions, scene descriptions or character actions.
-- Do NOT use labels such as Hook, Narrator, Visual, Audio or Scene.
-- Do NOT include instructions inside square brackets or parentheses.
-- Do NOT include headings, markdown formatting or production notes.
-- Use clean paragraphs with natural sentence flow.
-- The entire output must be ready to copy directly into a text-to-speech voice generator.
+{
+  "scenes": [
+    {
+      "scene_number": 1,
+      "title": "Short scene title",
+      "narration": "Exact narration for this scene",
+      "visual_description": "Detailed visual description for AI image generation",
+      "duration": 5
+    }
+  ]
+}
 
-IMPORTANT:
-If a person reads your entire response aloud, it should sound like a complete, natural YouTube narration. Nothing should need to be skipped.
+RULES:
+- Divide the script logically into 5 to 8 scenes.
+- Preserve the original meaning and narration.
+- Write visual descriptions in English.
+- Make visual descriptions detailed enough for AI image generation.
+- Give every scene a suitable duration in seconds.
+- Do not include markdown or code fences.
+- Return valid JSON only.
 `;
+
 
 
         const response = await ai.models.generateContent({
@@ -651,6 +651,57 @@ app.get("/api/voices", async (req, res) => {
         });
     }
 });
+
+app.post("/api/edit-script", async (req, res) => {
+    try {
+        const { script, instruction, language } = req.body;
+
+        if (!script || !instruction) {
+            return res.status(400).json({
+                success: false,
+                message: "Script and instruction are required!"
+            });
+        }
+
+        const prompt = `
+You are a professional YouTube script editor.
+
+Original script:
+${script}
+
+User's requested changes:
+${instruction}
+
+Language: ${language || "Preserve the original script language"}
+
+Instructions:
+- Apply the user's requested changes.
+- Preserve the original language.
+- Keep the narration natural and engaging.
+- Do not add visual descriptions, audio directions or scene instructions.
+- Return only the complete revised spoken script.
+`;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-3.5-flash-lite",
+            contents: prompt
+        });
+
+        res.json({
+            success: true,
+            script: response.text
+        });
+
+    } catch (error) {
+        console.error("AI Script Editing Error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "AI script editing failed. Please try again."
+        });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
