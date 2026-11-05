@@ -450,13 +450,17 @@ app.post(
             }
 
             args.push(
-                "-vf",
-                "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,fps=25",
-                "-c:v", "libx264",
-                "-pix_fmt", "yuv420p",
-                "-movflags", "+faststart",
-                outputPath
-            );
+    "-vf",
+    "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,fps=25",
+    "-c:v", "libx264",
+    "-preset", "ultrafast",
+    "-tune", "stillimage",
+    "-crf", "28",
+    "-threads", "1",
+    "-pix_fmt", "yuv420p",
+    "-movflags", "+faststart",
+    outputPath
+);
 
             const ffmpeg = spawn(ffmpegPath, args);
 
