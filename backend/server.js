@@ -153,37 +153,29 @@ app.post("/api/generate-scenes", async (req, res) => {
       
 
 const prompt = `
-You are a professional YouTube video scene planner.
+Create an engaging YouTube video script about: ${topic}.
 
-Convert the following video script into 5 to 8 visual scenes.
+Write the script in ${language}.
 
-SCRIPT:
-${script}
+TARGET VIDEO DURATION: ${videoDuration} seconds.
 
-Return ONLY valid JSON in this exact structure:
+SCRIPT LENGTH:
+Aim for approximately ${estimatedWords} spoken words.
+The narration should fit the selected duration when spoken naturally.
+Do not make the script unnecessarily long or short.
 
-{
-  "scenes": [
-    {
-      "scene_number": 1,
-      "title": "Short scene title",
-      "narration": "Exact narration for this scene",
-      "visual_description": "Detailed visual description for AI image generation",
-      "duration": 5
-    }
-  ]
-}
+Include:
+1. An interesting opening hook.
+2. Engaging narration.
+3. A clear and entertaining explanation or story.
+4. A memorable ending.
 
-RULES:
-- Divide the script logically into 5 to 8 scenes.
-- Preserve the original meaning and narration.
-- Write visual descriptions in English.
-- Make visual descriptions detailed enough for AI image generation.
-- Give every scene a suitable duration in seconds.
-- Do not include markdown or code fences.
-- Return valid JSON only.
+Additional instructions:
+- Make it suitable for a YouTube video.
+- Use natural, conversational language.
+- Avoid unnecessary introductions and repetition.
+- Return only the complete script.
 `;
-
 
 
         const response = await ai.models.generateContent({
@@ -648,56 +640,6 @@ app.get("/api/voices", async (req, res) => {
         res.status(500).json({
             success: false,
             message: error.message
-        });
-    }
-});
-
-app.post("/api/edit-script", async (req, res) => {
-    try {
-        const { script, instruction, language } = req.body;
-
-        if (!script || !instruction) {
-            return res.status(400).json({
-                success: false,
-                message: "Script and instruction are required!"
-            });
-        }
-
-        const prompt = `
-You are a professional YouTube script editor.
-
-Original script:
-${script}
-
-User's requested changes:
-${instruction}
-
-Language: ${language || "Preserve the original script language"}
-
-Instructions:
-- Apply the user's requested changes.
-- Preserve the original language.
-- Keep the narration natural and engaging.
-- Do not add visual descriptions, audio directions or scene instructions.
-- Return only the complete revised spoken script.
-`;
-
-        const response = await ai.models.generateContent({
-            model: "gemini-3.5-flash-lite",
-            contents: prompt
-        });
-
-        res.json({
-            success: true,
-            script: response.text
-        });
-
-    } catch (error) {
-        console.error("AI Script Editing Error:", error);
-
-        res.status(500).json({
-            success: false,
-            message: "AI script editing failed. Please try again."
         });
     }
 });
