@@ -150,35 +150,41 @@ app.post("/api/generate-scenes", async (req, res) => {
             });
         }
 
-        const prompt = `
-Convert the following Telugu YouTube script into 5 to 8 video scenes.
+      
+const prompt = `
+You are a professional YouTube voice-over script writer.
 
-For each scene provide:
-1. Scene number
-2. Short scene title
-3. Telugu narration
-4. Detailed visual description for AI image generation
-5. Suggested duration in seconds
+TOPIC: ${topic}
+LANGUAGE: ${language}
+TARGET VIDEO DURATION: ${videoDuration} seconds.
 
-Keep characters and their appearance consistent across scenes.
+LENGTH:
+Write approximately ${estimatedWords} spoken words.
+Make the narration suitable for the selected duration.
 
-Return only valid JSON in this format:
+CONTENT:
+1. Start with an interesting hook.
+2. Write engaging, natural narration.
+3. Explain the topic clearly or tell an entertaining story.
+4. End with a memorable conclusion.
+5. Include a natural audience engagement line when appropriate.
 
-{
-  "scenes": [
-    {
-      "scene_number": 1,
-      "title": "Scene title",
-      "narration": "Telugu narration",
-      "visual_description": "Detailed visual description",
-      "duration": 10
-    }
-  ]
-}
+STRICT OUTPUT RULES:
+- Return ONLY the spoken narration.
+- Write it exactly as a person should speak it in a voice-over.
+- Do NOT include visual descriptions.
+- Do NOT include audio instructions or voice tones.
+- Do NOT include camera directions, scene descriptions or character actions.
+- Do NOT use labels such as Hook, Narrator, Visual, Audio or Scene.
+- Do NOT include instructions inside square brackets or parentheses.
+- Do NOT include headings, markdown formatting or production notes.
+- Use clean paragraphs with natural sentence flow.
+- The entire output must be ready to copy directly into a text-to-speech voice generator.
 
-Original script:
-${script}
+IMPORTANT:
+If a person reads your entire response aloud, it should sound like a complete, natural YouTube narration. Nothing should need to be skipped.
 `;
+
 
         const response = await ai.models.generateContent({
             model: "gemini-3.5-flash-lite",
