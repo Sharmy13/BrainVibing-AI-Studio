@@ -16,11 +16,19 @@ const app = express();
 const PORT = 5000;
 
 // Middleware
+const allowedOrigins = [
+    "https://brainvibing-ai-studio-frontend.vercel.app"
+];
+
 app.use(cors({
-    origin: [
-        "https://brainvibing-ai-studio-frontend.vercel.app",
-        "https://brainvibing-ai-studio-frontend-r7q91vt0n-sharmy13s-projects.vercel.app"
-    ],
+    origin: function (origin, callback) {
+        const isAllowed =
+            !origin ||
+            allowedOrigins.includes(origin) ||
+            /^https:\/\/brainvibing-ai-studio-frontend(?:-[a-z0-9-]+)?-sharmy13s-projects\.vercel\.app$/.test(origin);
+
+        callback(null, isAllowed);
+    },
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
