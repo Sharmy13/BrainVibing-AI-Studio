@@ -64,7 +64,7 @@ generateBtn.addEventListener("click", async () => {
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/generate-script",
+            "https://brainvibing-backend.onrender.com/api/generate-script",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -123,7 +123,7 @@ generateScenesBtn.addEventListener("click", async () => {
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/generate-scenes",
+            "https://brainvibing-backend.onrender.com/api/generate-scenes",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -260,7 +260,7 @@ async function generateAllImages() {
 
         try {
             const response = await fetch(
-                "http://localhost:5000/api/generate-image",
+                "https://brainvibing-backend.onrender.com/api/generate-image",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -425,7 +425,7 @@ async function createFinalVideo() {
 
         // Send everything to backend
         const response = await fetch(
-            "http://localhost:5000/api/create-video",
+            "https://brainvibing-backend.onrender.com/api/create-video",
             {
                 method: "POST",
                 body: formData
@@ -517,7 +517,7 @@ let availableVoices = [];
 
 async function loadVoices() {
     try {
-        const response = await fetch("http://localhost:5000/api/voices");
+        const response = await fetch("https://brainvibing-backend.onrender.com/api/voices");
         const data = await response.json();
 
         if (!data.success) {
@@ -578,7 +578,7 @@ if (!voiceText) {
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/generate-audio",
+            "https://brainvibing-backend.onrender.com/api/generate-audio",
             {
                 method: "POST",
                 headers: {
@@ -675,7 +675,7 @@ sendScriptMessage.addEventListener("click", async () => {
             .join("\n");
 
         const response = await fetch(
-            "http://localhost:5000/api/edit-script",
+            "https://brainvibing-backend.onrender.com/api/edit-script",
             {
                 method: "POST",
                 headers: {
