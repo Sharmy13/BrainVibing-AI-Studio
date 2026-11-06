@@ -354,8 +354,9 @@ async function createFinalVideo() {
         if (!generatedScenes || generatedScenes.length !== generatedImages.length) {
             throw new Error("Scene count and image count do not match!");
         }
-
+const aspectRatio = document.getElementById("aspectRatio").value;
         const formData = new FormData();
+        formData.append("aspectRatio", aspectRatio);
 
         // Add scene images
         generatedImages.forEach((item) => {
